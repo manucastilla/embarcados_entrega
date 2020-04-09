@@ -120,6 +120,11 @@ static void AFEC_pot_Callback(void){
 	//g_is_conversion_done = true;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xSemaphoreGiveFromISR(xSemaphore, &xHigherPriorityTaskWoken);
+	
+	adcData adc;
+	adc.value = g_ul_value;
+	xQueueSendFromISR(xQueueADC, &adc, &xHigherPriorityTaskWoken);
+	
 }
 
 static void config_AFEC_pot(Afec *afec, uint32_t afec_id, uint32_t afec_channel, afec_callback_t callback){
@@ -185,8 +190,8 @@ void task_adc(void){
 		if(xSemaphoreTake(xSemaphore, ( TickType_t ) 500) == pdTRUE ){
 			printf("%d\n", g_ul_value);
 			
-			adc.value = g_ul_value;
-			xQueueSend(xQueueADC, &adc, 0);
+			//adc.value = g_ul_value;
+			//xQueueSend(xQueueADC, &adc, 0);
 			
 			vTaskDelay(500);
 
