@@ -44,7 +44,7 @@ volatile uint32_t g_ul_value = 0;
 #define TASK_MXT_STACK_SIZE            (2*1024/sizeof(portSTACK_TYPE))
 #define TASK_MXT_STACK_PRIORITY        (tskIDLE_PRIORITY)
 
-#define TASK_LCD_STACK_SIZE            (4*1024/sizeof(portSTACK_TYPE))
+#define TASK_LCD_STACK_SIZE            (6*1024/sizeof(portSTACK_TYPE))
 #define TASK_LCD_STACK_PRIORITY        (tskIDLE_PRIORITY)
 
 SemaphoreHandle_t xSemaphore;
@@ -323,6 +323,8 @@ void task_lcd(void){
   touchData touch;
   adcData adc;
   
+  int t, x, y;
+  
   while (true) {
     if (xQueueReceive( xQueueTouch, &(touch), ( TickType_t )  500 / portTICK_PERIOD_MS)) {
       printf("Touch em: x:%d y:%d\n", touch.x, touch.y);
@@ -335,6 +337,23 @@ void task_lcd(void){
 		      char b[512];
 		      sprintf(b, "%04d", adc.value);
 		      font_draw_text(&arial_72, b, 50, 200, 2);
+			  
+			  if (adc.value < 4096/3){
+				  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_GREEN));
+				  ili9488_draw_filled_rectangle(0, 0, ILI9488_LCD_WIDTH/3, 200);
+				  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_WHITE));
+				  ili9488_draw_filled_rectangle(ILI9488_LCD_WIDTH, 0, ILI9488_LCD_WIDTH/3, 200);
+				  } else if(adc.value > 2*4096/3) {
+				  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_TOMATO));
+				  ili9488_draw_filled_rectangle(0, 0, ILI9488_LCD_WIDTH, 200);
+			  }
+			  else {
+				  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_YELLOW));
+				  ili9488_draw_filled_rectangle(0, 0, 2*ILI9488_LCD_WIDTH/3, 200);
+				  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_WHITE));
+				  ili9488_draw_filled_rectangle(ILI9488_LCD_WIDTH, 0, 2*ILI9488_LCD_WIDTH/3, 200);
+			  }
+			  
 	    }
   }
 }
@@ -344,7 +363,7 @@ void task_lcd(void){
 /************************************************************************/
 
 int main(void)
-{
+{	
   /* Initialize the USART configuration struct */
   const usart_serial_options_t usart_serial_options = {
     .baudrate     = USART_SERIAL_EXAMPLE_BAUDRATE,

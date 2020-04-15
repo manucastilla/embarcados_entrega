@@ -51,7 +51,7 @@
 /************************************************************************/
 void io_init(void);
 void pisca_led(int n, int t);
-
+volatile char flag = 0;
 /************************************************************************/
 /* handler / callbacks                                                  */
 /************************************************************************/
@@ -65,7 +65,7 @@ void pisca_led(int n, int t);
  */
 void but_callback(void)
 {
-  pisca_led(5, 200);
+  flag = !flag;
 }
 
 /************************************************************************/
@@ -103,7 +103,7 @@ void io_init(void)
   pio_handler_set(BUT_PIO,
                   BUT_PIO_ID,
                   BUT_IDX_MASK,
-                  PIO_IT_FALL_EDGE,
+                  PIO_IT_RISE_EDGE,
                   but_callback);
 
   // Ativa interrupção
@@ -135,5 +135,11 @@ void main(void)
 	// aplicacoes embarcadas no devem sair do while(1).
 	while(1)
   {
+	  if(flag){
+		  pisca_led(5, 200);
+		  flag=0;
+	  }
+	  
+	 pmc_sleep(SAM_PM_SMODE_SLEEP_WFI);
 	}
 }
