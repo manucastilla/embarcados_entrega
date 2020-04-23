@@ -212,7 +212,8 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/config/conf_board.h ../src/maxTouch/maxTouch.h \
  ../src/config/conf_example.h ../src/tfont.h ../src/digital521.h \
  ../src/icones/hour_icon_light.h ../src/icones/pause_icon_light.h \
- ../src/icones/restart_icon_light.h
+ ../src/icones/restart_icon_light.h ../src/icones/hour_icon_dark.h \
+ ../src/icones/pause_icon_dark.h ../src/icones/restart_icon_dark.h
 
 ../src/asf.h:
 
@@ -667,3 +668,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/icones/pause_icon_light.h:
 
 ../src/icones/restart_icon_light.h:
+
+../src/icones/hour_icon_dark.h:
+
+../src/icones/pause_icon_dark.h:
+
+../src/icones/restart_icon_dark.h:

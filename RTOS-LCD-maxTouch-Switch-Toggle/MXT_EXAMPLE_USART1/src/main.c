@@ -11,6 +11,9 @@
 #include "icones/hour_icon_light.h"
 #include "icones/pause_icon_light.h"
 #include "icones/restart_icon_light.h"
+#include "icones/hour_icon_dark.h"
+#include "icones/pause_icon_dark.h"
+#include "icones/restart_icon_dark.h"
 
 /************************************************************************/
 /* prototypes                                                           */
@@ -61,7 +64,8 @@ typedef struct {
 	uint32_t y;         // posicao y
 	uint32_t status;	// status
 	void (*callback)(t_but);
-	tImage image;
+	tImage imageOn;
+	tImage imageOff;
 	
 } t_but;
 
@@ -261,12 +265,14 @@ void task_mxt(void){
 void draw_button_new(t_but but){
 	uint32_t color;
 	if(but.status)
-	ili9488_draw_pixmap(but.x-but.image.width/2, but.y-but.image.height/2, but.image.width, but.image.height, but.image.data);
-	else {
-		color = but.colorOff;
-		ili9488_set_foreground_color(COLOR_CONVERT(color));
-		ili9488_draw_filled_rectangle(but.x-but.width/2, but.y-but.height/2,
-		but.x+but.width/2, but.y+but.height/2);
+	ili9488_draw_pixmap(but.x-but.imageOn.width/2, but.y-but.imageOn.height/2, but.imageOn.width, but.imageOn.height, but.imageOn.data);
+	else{
+		ili9488_draw_pixmap(but.x-but.imageOff.width/2, but.y-but.imageOff.height/2, but.imageOff.width, but.imageOff.height, but.imageOff.data);
+
+		//color = but.colorOff;
+		//ili9488_set_foreground_color(COLOR_CONVERT(color));
+		//ili9488_draw_filled_rectangle(but.x-but.width/2, but.y-but.height/2,
+		//but.x+but.width/2, but.y+but.height/2);
 	}
 }
 
@@ -320,19 +326,19 @@ void task_lcd(void){
 
 	t_but but0 = {.width = 120, .height = 75,
 		.colorOn = COLOR_TOMATO, .colorOff = COLOR_BLACK,
-	.x = ILI9488_LCD_WIDTH/2, .y = 40, .status = 1, .callback = &but0_callback, .image = hour_light };
+	.x = ILI9488_LCD_WIDTH/2, .y = 40, .status = 1, .callback = &but0_callback, .imageOn = hour_light, .imageOff = hour_dark};
 	draw_button_new(but0);
 	
 	
 	t_but but1 = {.width = 120, .height = 75,
 		.colorOn = COLOR_NAVY, .colorOff = COLOR_BLACK,
-	.x = ILI9488_LCD_WIDTH/2, .y = 140, .status = 1, .callback = &but1_callback, .image = pause_light};
+	.x = ILI9488_LCD_WIDTH/2, .y = 140, .status = 1, .callback = &but1_callback, .imageOn = pause_light, .imageOff = pause_dark};
 	draw_button_new(but1);
 	
 	
 	t_but but2 = {.width = 120, .height = 75,
 		.colorOn = COLOR_MAGENTA, .colorOff = COLOR_BLACK,
-	.x = ILI9488_LCD_WIDTH/2, .y = 240, .status = 1, .callback = &but2_callback, .image = restart_light};
+	.x = ILI9488_LCD_WIDTH/2, .y = 240, .status = 1, .callback = &but2_callback, .imageOn = restart_light, .imageOff = restart_dark};
 	draw_button_new(but2);
 	
 	

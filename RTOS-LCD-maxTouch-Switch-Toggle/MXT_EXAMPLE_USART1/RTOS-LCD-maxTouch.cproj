@@ -776,10 +776,19 @@
     <Compile Include="src\digital521.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\icones\hour_icon_dark.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\icones\hour_icon_light.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\icones\pause_icon_dark.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\icones\pause_icon_light.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\icones\restart_icon_dark.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\icones\restart_icon_light.h">
