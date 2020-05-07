@@ -62,6 +62,7 @@ QueueHandle_t xQueueCommand;
 
 /** Semaforo a ser usado pela task led 
     tem que ser var global! */
+SemaphoreHandle_t xSemaphore;
 SemaphoreHandle_t xSemaphore1;
 SemaphoreHandle_t xSemaphore2;
 SemaphoreHandle_t xSemaphore3;
@@ -72,20 +73,6 @@ extern void vApplicationTickHook(void);
 extern void vApplicationMallocFailedHook(void);
 extern void xPortSysTickHandler(void);
 
-void but1_callback(void)
-{
-	xQueueSendFromISR(xQueueCommand, "toggle led 1", xHigherPriorityTaskWoken);
-}
-
-void but2_callback(void)
-{
-	xQueueSendFromISR(xQueueCommand, "toggle led 2", xHigherPriorityTaskWoken);
-}
-
-void but3_callback(void)
-{
-	xQueueSendFromISR(xQueueCommand, "toggle led 3", xHigherPriorityTaskWoken);
-}
 
 void pin_toggle(Pio *pio, uint32_t mask)
 {
@@ -183,6 +170,15 @@ void but_callback(void)
     printf("semafaro tx \n");
 }
 
+void but1_callback(void)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	printf("but_callback \n");
+	xSemaphoreGiveFromISR(xSemaphore1, &xHigherPriorityTaskWoken);
+	printf("semafaro tx \n");
+}
+
+
 void but2_callback(void)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -256,7 +252,7 @@ static void task_led2(void *pvParameters)
     /* init botão */
     pmc_enable_periph_clk(BUT2_PIO);
     pio_configure(BUT2_PIO, PIO_INPUT, BUT1_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
-    pio_handler_set(BUT2_PIO, BUT2_PIO_ID, BUT2_PIO_IDX_MASK, PIO_IT_FALL_EDGE, but2_callback());
+    pio_handler_set(BUT2_PIO, BUT2_PIO_ID, BUT2_PIO_IDX_MASK, PIO_IT_FALL_EDGE, but2_callback);
     pio_enable_interrupt(BUT2_PIO, BUT2_PIO_IDX_MASK);
     NVIC_EnableIRQ(BUT2_PIO_ID);
     NVIC_SetPriority(BUT2_PIO_ID, 4); // Prioridade 4
@@ -286,7 +282,7 @@ static void task_led3(void *pvParameters)
     /* init botão */
     pmc_enable_periph_clk(BUT3_PIO);
     pio_configure(BUT3_PIO, PIO_INPUT, BUT3_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
-    pio_handler_set(BUT3_PIO, BUT2_PIO_ID, BUT3_IDX_MASK, PIO_IT_FALL_EDGE, but3_callback());
+    pio_handler_set(BUT3_PIO, BUT2_PIO_ID, BUT3_IDX_MASK, PIO_IT_FALL_EDGE, but3_callback);
     pio_enable_interrupt(BUT3_PIO, BUT3_IDX_MASK);
     NVIC_EnableIRQ(BUT3_PIO_ID);
     NVIC_SetPriority(BUT3_PIO_ID, 4); // Prioridade 4
@@ -307,7 +303,7 @@ static void task_execute(void *pvParameters){
 	
 	char command[10];
 	while(1){
-		if(xQueueReceive(xQueueCommand, &(command), (TickType_t)500 / portTICK_PERIOD_MS) )){
+		if(xQueueReceive(xQueueCommand, &(command), (TickType_t)500 / portTICK_PERIOD_MS) ){
 			 if (strcmp(command, "toggle led 1") == 0)
 			 {
 				 xSemaphoreGive(xSemaphore1);
@@ -418,14 +414,14 @@ uint32_t usart1_puts(uint8_t *pstring){
 }
 
 void init(void){
-	 pmc_enable_periph_clk(LED1_OLED_PIO_ID);
-	 pio_set_output(LED1_OLED_PIO, LED1_OLED_IDX_MASK, 0, 0, 0);
+	 pmc_enable_periph_clk(LED1_PIO_ID);
+	 pio_set_output(LED1_PIO, LED2_IDX_MASK, 0, 0, 0);
 
-	 pmc_enable_periph_clk(LED2_OLED_PIO_ID);
-	 pio_set_output(LED2_OLED_PIO, LED2_OLED_IDX_MASK, 0, 0, 0);
+	 pmc_enable_periph_clk(LED2_PIO_ID);
+	 pio_set_output(LED2_PIO, LED2_IDX_MASK, 0, 0, 0);
 
-	 pmc_enable_periph_clk(LED3_OLED_PIO_ID);
-	 pio_set_output(LED3_OLED_PIO, LED3_OLED_IDX_MASK, 0, 0, 0);
+	 pmc_enable_periph_clk(LED3_PIO_ID);
+	 pio_set_output(LED3_PIO, LED3_IDX_MASK, 0, 0, 0);
 }
 /**
  *  \brief FreeRTOS Real Time Kernel example entry point.
