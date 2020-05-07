@@ -372,10 +372,15 @@ void task_lcd(void)
  touchData touch;
  int raio = 80;
  
+ uint32_t xOld, yOld;
+ 
  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_BLACK));
  ili9488_draw_filled_circle(ILI9488_LCD_WIDTH/2, ILI9488_LCD_HEIGHT/2, 105 );
  
  while (true) {
+	 xOld = calc_x(plot.filtrado, raio) + + ILI9488_LCD_WIDTH/2;
+	 yOld = calc_y(plot.filtrado, raio) + + ILI9488_LCD_HEIGHT/2;
+	 
 	 if (xQueueReceive( xQueueTouch, &(touch), ( TickType_t )  500 / portTICK_PERIOD_MS)) {
 		 //printf("x:%d y:%d\n", touch.x, touch.y);
 	 }
@@ -392,15 +397,18 @@ void task_lcd(void)
 			 //ili9488_draw_filled_circle(x, ILI9488_LCD_HEIGHT - plot.filtrado / 16, 2);
 			 
 			 //plot raw
-			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_GREEN));
-			 ili9488_draw_filled_circle(calc_x(plot.raw, raio)+ ILI9488_LCD_WIDTH/2,
-			 calc_y(plot.raw, raio)+ ILI9488_LCD_HEIGHT/2, 2);
+			// ili9488_set_foreground_color(COLOR_CONVERT(COLOR_GREEN));
+			 //ili9488_draw_filled_circle(calc_x(plot.raw, raio)+ ILI9488_LCD_WIDTH/2,
+			 //calc_y(plot.raw, raio)+ ILI9488_LCD_HEIGHT/2, 2);
 			 	 
 			 
 			 //plot filtrado
-			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
-			 ili9488_draw_filled_circle(calc_x(plot.filtrado, raio)+ ILI9488_LCD_WIDTH/2,
-			 calc_y(plot.filtrado, raio)+ ILI9488_LCD_HEIGHT/2, 2);
+			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_BLACK));
+			 ili9488_draw_filled_circle(xOld, yOld, 2);
+			 
+			  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
+			  ili9488_draw_filled_circle(calc_x(plot.filtrado, raio)+ ILI9488_LCD_WIDTH/2,
+			  calc_y(plot.filtrado, raio)+ ILI9488_LCD_HEIGHT/2, 2);
 			 
 		// }
 		// else{
