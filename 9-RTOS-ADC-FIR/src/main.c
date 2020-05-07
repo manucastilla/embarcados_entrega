@@ -363,6 +363,7 @@ void task_lcd(void)
  configure_lcd();
  draw_screen();
  
+ int desenhado =0;
  int x = 0;
  char buffer[70];
  adcData adc; 
@@ -390,12 +391,11 @@ void task_lcd(void)
 			 //ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
 			 //ili9488_draw_filled_circle(x, ILI9488_LCD_HEIGHT - plot.filtrado / 16, 2);
 			 
-			 
 			 //plot raw
 			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_GREEN));
 			 ili9488_draw_filled_circle(calc_x(plot.raw, raio)+ ILI9488_LCD_WIDTH/2,
 			 calc_y(plot.raw, raio)+ ILI9488_LCD_HEIGHT/2, 2);
-			 
+			 	 
 			 
 			 //plot filtrado
 			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));

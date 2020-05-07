@@ -19,23 +19,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   7 .comment      000000b4  00000000  00000000  000209ec  2**0
                   CONTENTS, READONLY
-  8 .debug_info   0002f076  00000000  00000000  00020aa0  2**0
+  8 .debug_info   0002f08a  00000000  00000000  00020aa0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_abbrev 00006088  00000000  00000000  0004fb16  2**0
+  9 .debug_abbrev 00006088  00000000  00000000  0004fb2a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_aranges 000013f8  00000000  00000000  00055b9e  2**0
+ 10 .debug_aranges 000013f8  00000000  00000000  00055bb2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_macro  0002831e  00000000  00000000  00056f96  2**0
+ 11 .debug_macro  0002831e  00000000  00000000  00056faa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_line   00018e5e  00000000  00000000  0007f2b4  2**0
+ 12 .debug_line   00018e5e  00000000  00000000  0007f2c8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    000a05dc  00000000  00000000  00098112  2**0
+ 13 .debug_str    000a05e6  00000000  00000000  00098126  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    0000ef90  00000000  00000000  001386ee  2**0
+ 14 .debug_loc    0000ef90  00000000  00000000  0013870c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00001660  00000000  00000000  0014767e  2**0
+ 15 .debug_ranges 00001660  00000000  00000000  0014769c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_frame  000042ac  00000000  00000000  00148ce0  2**2
+ 16 .debug_frame  000042ac  00000000  00000000  00148cfc  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -9508,13 +9508,13 @@ void task_lcd(void)
   4043a8:	20f0      	movs	r0, #240	; 0xf0
   4043aa:	4b32      	ldr	r3, [pc, #200]	; (404474 <task_lcd+0x118>)
   4043ac:	4798      	blx	r3
+			 //ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
 			 //ili9488_draw_filled_circle(x, ILI9488_LCD_HEIGHT - plot.filtrado / 16, 2);
-			 
 			 
 			 //plot raw
 			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_GREEN));
 			 ili9488_draw_filled_circle(calc_x(plot.raw, raio)+ ILI9488_LCD_WIDTH/2,
-  4043ae:	f04f 0850 	mov.w	r8, #80	; 0x50
+  4043ae:	f04f 0b50 	mov.w	fp, #80	; 0x50
 	 if (xQueueReceive( xQueueTouch, &(touch), ( TickType_t )  500 / portTICK_PERIOD_MS)) {
   4043b2:	4e28      	ldr	r6, [pc, #160]	; (404454 <task_lcd+0xf8>)
   4043b4:	2500      	movs	r5, #0
@@ -9539,13 +9539,13 @@ void task_lcd(void)
   4043da:	47b8      	blx	r7
 			 ili9488_draw_filled_circle(calc_x(plot.raw, raio)+ ILI9488_LCD_WIDTH/2,
   4043dc:	9c04      	ldr	r4, [sp, #16]
-  4043de:	4641      	mov	r1, r8
+  4043de:	4659      	mov	r1, fp
   4043e0:	4620      	mov	r0, r4
   4043e2:	4e26      	ldr	r6, [pc, #152]	; (40447c <task_lcd+0x120>)
   4043e4:	47b0      	blx	r6
   4043e6:	e9cd 0100 	strd	r0, r1, [sp]
 			 calc_y(plot.raw, raio)+ ILI9488_LCD_HEIGHT/2, 2);
-  4043ea:	4641      	mov	r1, r8
+  4043ea:	4659      	mov	r1, fp
   4043ec:	4620      	mov	r0, r4
   4043ee:	f8df a0a0 	ldr.w	sl, [pc, #160]	; 404490 <task_lcd+0x134>
   4043f2:	47d0      	blx	sl
@@ -9556,39 +9556,38 @@ void task_lcd(void)
 			 ili9488_draw_filled_circle(calc_x(plot.raw, raio)+ ILI9488_LCD_WIDTH/2,
   4043fc:	4c22      	ldr	r4, [pc, #136]	; (404488 <task_lcd+0x12c>)
   4043fe:	47a0      	blx	r4
-  404400:	4681      	mov	r9, r0
+  404400:	4680      	mov	r8, r0
   404402:	2200      	movs	r2, #0
   404404:	4b21      	ldr	r3, [pc, #132]	; (40448c <task_lcd+0x130>)
   404406:	e9dd 0100 	ldrd	r0, r1, [sp]
   40440a:	47a8      	blx	r5
   40440c:	47a0      	blx	r4
   40440e:	2202      	movs	r2, #2
-  404410:	4649      	mov	r1, r9
+  404410:	4641      	mov	r1, r8
   404412:	f8df 9060 	ldr.w	r9, [pc, #96]	; 404474 <task_lcd+0x118>
   404416:	47c8      	blx	r9
 			 
-			 
-			 //plot filtrado
-			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
-  404418:	f44f 007c 	mov.w	r0, #16515072	; 0xfc0000
-  40441c:	47b8      	blx	r7
-			 ili9488_draw_filled_circle(calc_x(plot.filtrado, raio)+ ILI9488_LCD_WIDTH/2,
-  40441e:	f8dd b014 	ldr.w	fp, [sp, #20]
-  404422:	4641      	mov	r1, r8
-  404424:	4658      	mov	r0, fp
+			 ili9488_set_foreground_color(COLOR_CONVERT(COLOR_WHITE));
+  404418:	4811      	ldr	r0, [pc, #68]	; (404460 <task_lcd+0x104>)
+  40441a:	47b8      	blx	r7
+			 ili9488_draw_filled_circle(calc_x(plot.raw -1, raio)+ ILI9488_LCD_WIDTH/2,
+  40441c:	9b04      	ldr	r3, [sp, #16]
+  40441e:	f103 38ff 	add.w	r8, r3, #4294967295
+  404422:	4659      	mov	r1, fp
+  404424:	4640      	mov	r0, r8
   404426:	47b0      	blx	r6
   404428:	4606      	mov	r6, r0
   40442a:	460f      	mov	r7, r1
-			 calc_y(plot.filtrado, raio)+ ILI9488_LCD_HEIGHT/2, 2);
-  40442c:	4641      	mov	r1, r8
-  40442e:	4658      	mov	r0, fp
+			 calc_y(plot.raw-1, raio)+ ILI9488_LCD_HEIGHT/2, 2);
+  40442c:	4659      	mov	r1, fp
+  40442e:	4640      	mov	r0, r8
   404430:	47d0      	blx	sl
   404432:	2200      	movs	r2, #0
   404434:	4b13      	ldr	r3, [pc, #76]	; (404484 <task_lcd+0x128>)
   404436:	47a8      	blx	r5
-			 ili9488_draw_filled_circle(calc_x(plot.filtrado, raio)+ ILI9488_LCD_WIDTH/2,
+			 ili9488_draw_filled_circle(calc_x(plot.raw -1, raio)+ ILI9488_LCD_WIDTH/2,
   404438:	47a0      	blx	r4
-  40443a:	4682      	mov	sl, r0
+  40443a:	4680      	mov	r8, r0
   40443c:	2200      	movs	r2, #0
   40443e:	4b13      	ldr	r3, [pc, #76]	; (40448c <task_lcd+0x130>)
   404440:	4630      	mov	r0, r6
@@ -9596,7 +9595,7 @@ void task_lcd(void)
   404444:	47a8      	blx	r5
   404446:	47a0      	blx	r4
   404448:	2202      	movs	r2, #2
-  40444a:	4651      	mov	r1, sl
+  40444a:	4641      	mov	r1, r8
   40444c:	47c8      	blx	r9
   40444e:	e7b0      	b.n	4043b2 <task_lcd+0x56>
   404450:	00402995 	.word	0x00402995

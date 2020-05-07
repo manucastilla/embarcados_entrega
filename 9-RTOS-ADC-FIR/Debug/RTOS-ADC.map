@@ -13875,7 +13875,7 @@ OUTPUT(RTOS-ADC.elf elf32-littlearm)
                                  0x5c (size before relaxing)
  .comment       0x000000b4       0x5c ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_f32.o)
 
-.debug_info     0x00000000    0x2f076
+.debug_info     0x00000000    0x2f08a
  .debug_info    0x00000000      0xa8e src/ASF/common/services/sleepmgr/sam/sleepmgr.o
  .debug_info    0x00000a8e     0x24c8 src/ASF/sam/drivers/afec/afec.o
  .debug_info    0x00002f56     0x1269 src/ASF/sam/drivers/tc/tc.o
@@ -13905,9 +13905,9 @@ OUTPUT(RTOS-ADC.elf elf32-littlearm)
  .debug_info    0x0002233e     0x26ec src/ASF/thirdparty/freertos/freertos-8.2.3/Source/queue.o
  .debug_info    0x00024a2a     0x34b4 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/tasks.o
  .debug_info    0x00027ede     0x1b3e src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
- .debug_info    0x00029a1c     0x51b4 src/main.o
- .debug_info    0x0002ebd0      0x1b9 ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_init_f32.o)
- .debug_info    0x0002ed89      0x2ed ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_f32.o)
+ .debug_info    0x00029a1c     0x51c8 src/main.o
+ .debug_info    0x0002ebe4      0x1b9 ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_init_f32.o)
+ .debug_info    0x0002ed9d      0x2ed ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_f32.o)
 
 .debug_abbrev   0x00000000     0x6088
  .debug_abbrev  0x00000000      0x1b2 src/ASF/common/services/sleepmgr/sam/sleepmgr.o
@@ -14290,7 +14290,7 @@ OUTPUT(RTOS-ADC.elf elf32-littlearm)
  .debug_line    0x0001893d      0x183 ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_init_f32.o)
  .debug_line    0x00018ac0      0x39e ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_f32.o)
 
-.debug_str      0x00000000    0xa05dc
+.debug_str      0x00000000    0xa05e6
  .debug_str     0x00000000    0x87f9e src/ASF/common/services/sleepmgr/sam/sleepmgr.o
                               0x8869f (size before relaxing)
  .debug_str     0x00087f9e     0x54f8 src/ASF/sam/drivers/afec/afec.o
@@ -14349,11 +14349,11 @@ OUTPUT(RTOS-ADC.elf elf32-littlearm)
                               0x91284 (size before relaxing)
  .debug_str     0x0009dcb4      0x483 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
                               0x90d0b (size before relaxing)
- .debug_str     0x0009e137     0x22e3 src/main.o
-                              0x99ac9 (size before relaxing)
- .debug_str     0x000a041a      0x157 ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_init_f32.o)
+ .debug_str     0x0009e137     0x22ed src/main.o
+                              0x99ad3 (size before relaxing)
+ .debug_str     0x000a0424      0x157 ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_init_f32.o)
                                 0x278 (size before relaxing)
- .debug_str     0x000a0571       0x6b ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_f32.o)
+ .debug_str     0x000a057b       0x6b ../src/ASF/thirdparty/CMSIS/Lib/GCC\libarm_cortexM7lfsp_math_softfp.a(arm_fir_f32.o)
                                 0x2b3 (size before relaxing)
 
 .debug_loc      0x00000000     0xef90
